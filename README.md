@@ -6,7 +6,7 @@
 
 ## Overview
 
-In this demo, we will show you how to use attitude calculation component, and view the calculation results of attitude angles through the serial tool. This Demo is an application developed based on the Tuya Bluetooth Low Energy module and Tuya SDK. You can also create smart products on [Tuya IoT Platform](https://iot.tuya.com/) and use the Tuya Smart APP To control your device. In addition, this Demo uses the interface provided in the MPU6050 driver component to drive the MPU6050 to collect acceleration and angular velocity. The component can be found in [tuya-iotos-embeded-demo-ble-mpu6050](https://github.com/tuya/tuya -iotos-embeded-demo-ble-angle-calc).
+In this demo, we will show you how to use attitude calculation component, and view the calculation results of attitude angles through the serial tool. This Demo is an application developed based on the Tuya Bluetooth Low Energy module and Tuya SDK. You can also create smart products on [Tuya IoT Platform](https://iot.tuya.com/) and use the Tuya Smart APP To control your device. In addition, this Demo uses the interface provided in the MPU6050 driver component to drive the MPU6050 to collect acceleration and angular velocity. The component can be found in [tuya-iotos-embeded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050).
 
 <br>
 

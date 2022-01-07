@@ -6,7 +6,7 @@
 
 ## 简介
 
-在本 Demo 中，我们将向您展示姿态解算组件的使用方法，并通过串口工具查看姿态角计算结果。本 Demo 是基于涂鸦低功耗蓝牙模组和涂鸦 BLE SDK 开发的应用程序，您也可以在 [涂鸦IoT平台](https://iot.tuya.com/) 创建智能产品，并通过涂鸦智能 APP 来控制您的设备。另外，本 Demo 使用了 MPU6050 驱动组件中提供的接口来驱动 MPU6050 采集加速度和角速度数据，组件可在 [tuya-iotos-embeded-demo-ble-mpu6050](https://github.com/tuya/tuya-iotos-embeded-demo-ble-angle-calc) 中获取。
+在本 Demo 中，我们将向您展示姿态解算组件的使用方法，并通过串口工具查看姿态角计算结果。本 Demo 是基于涂鸦低功耗蓝牙模组和涂鸦 BLE SDK 开发的应用程序，您也可以在 [涂鸦IoT平台](https://iot.tuya.com/) 创建智能产品，并通过涂鸦智能 APP 来控制您的设备。另外，本 Demo 使用了 MPU6050 驱动组件中提供的接口来驱动 MPU6050 采集加速度和角速度数据，组件可在 [tuya-iotos-embeded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050) 中获取。
 
 <br>
 
