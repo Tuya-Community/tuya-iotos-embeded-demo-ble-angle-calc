@@ -1,4 +1,4 @@
-# TuyaOS Embedded Bluetooth Low Energy Attitude Angles Calculation
+# TuyaOS Embedded Bluetooth Low Energy Attitude Calculation
 
 [English](./README.md) | [中文](./README_zh.md)
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-In this demo, we will show you how to use attitude calculation component, and view the calculation results of attitude angles through the serial tool. This Demo is an application developed based on the Tuya Bluetooth Low Energy module and Tuya SDK. You can also create smart products on [Tuya IoT Platform](https://iot.tuya.com/) and use the Tuya Smart APP To control your device. In addition, this Demo uses the interface provided in the MPU6050 driver component to drive the MPU6050 to collect acceleration and angular velocity. The component can be found in [tuya-iotos-embeded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050).
+This demo shows you how to use the attitude calculation component and view the result via a serial communication tool. This demo application is developed based on Tuya's low power Bluetooth module and the Bluetooth Low Energy SDK. You can create a prototype of a smart product on the [Tuya IoT Development Platform](https://iot.tuya.com/) and control it by using the Smart Life app. This demo uses the interface provided by the MPU6050 driver component to drive the MPU6050 to acquire the acceleration and angular velocity. You and find it from [tuya-iotos-embedded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050).
 
 <br>
 
@@ -15,7 +15,7 @@ In this demo, we will show you how to use attitude calculation component, and vi
 ### Set up IDE
 
 - Install the integrated development environment (IDE) as per your chip platform.
-- To get the SDK, you need to create a product on the [Tuya IoT Platform](https://iot.tuya.com/). Then, go to the Hardware Development step, select a connection method, and then download the SDK.
+- To download the SDK, you need to create a product on the [Tuya IoT Development Platform](https://iot.tuya.com/). Then, go to the **Hardware Development** step, select a connection method and a network module, and then download the SDK in the **Download Documents** area.
 
 <br>
 
@@ -23,7 +23,7 @@ In this demo, we will show you how to use attitude calculation component, and vi
 
 - Edit code
 
-   1. In `tuya_ble_sdk_demo.h`, populate the PID, MAC address, UUID, and authKey with the value you obtained from the [Tuya IoT Platform](https://iot.tuya.com/).
+   1. In `tuya_ble_sdk_demo.h`, populate the PID, MAC address, UUID, and authKey with the value you obtained from the [Tuya IoT Development Platform](https://iot.tuya.com/).
 
       ```c
       #define TY_DEVICE_NAME        "demo"
@@ -39,13 +39,13 @@ In this demo, we will show you how to use attitude calculation component, and vi
 
       ```c
       static tuya_ble_device_param_t tuya_ble_device_param = {
-          .use_ext_license_key = 1,	 // 1-info in tuya_ble_sdk_demo.h, 0-auth info
-          .device_id_len       = 16,	 // DEVICE_ID_LEN,
-          .p_type              = TUYA_BLE_PRODUCT_ID_TYPE_PID,
-          .product_id_len      = 8,
-          .adv_local_name_len  = 4,
-          .firmware_version    = TY_DEVICE_FVER_NUM,
-          .hardware_version    = TY_DEVICE_HVER_NUM,
+            .use_ext_license_key = 1,	// 1-info in tuya_ble_sdk_demo.h, 0-auth info
+            .device_id_len       = 16,	// DEVICE_ID_LEN,
+            .p_type              = TUYA_BLE_PRODUCT_ID_TYPE_PID,
+            .product_id_len      = 8,
+            .adv_local_name_len  = 4,
+            .firmware_version    = TY_DEVICE_FVER_NUM,
+            .hardware_version    = TY_DEVICE_HVER_NUM,
       };
       ```
 
@@ -57,7 +57,7 @@ In this demo, we will show you how to use attitude calculation component, and vi
 
 ### File introduction
 
-Please put the MPU6050 driver component in the `driver` folder.
+Copy the MPU6050 driver component to the driver folder.
 
 ```
 ├── include
@@ -71,7 +71,7 @@ Please put the MPU6050 driver component in the `driver` folder.
 |    |    ├── tuya_ble_bulk_data_demo.h    /* Bulk data transmission */
 |    |    ├── tuya_ble_product_test_demo.h /* Routine for end product testing */
 |    |    └── tuya_ble_sdk_test.h          /* UART commands for testing */
-|    ├── tuya_app_angle_calc.h             /* Attitude calculation demo */
+|    ├── tuya_app_angle_calc.h             /* Attitude calculation application routine */
 |    ├── tuya_ble_sdk_demo.h               /* Entry to the main application. SDK initialization. */
 |    └── tuya_svc_angle_calc.h             /* Attitude calculation component */
 └── src
@@ -83,9 +83,9 @@ Please put the MPU6050 driver component in the `driver` folder.
      |    ├── tuya_ble_bulk_data_demo.c    /* Bulk data transmission */
      |    ├── tuya_ble_product_test_demo.c /* Routine for end product testing */
      |    └── tuya_ble_sdk_test.c          /* Program for testing SDK */
-     ├── tuya_app_angle_calc.c             /* Attitude calculation demo */
+     ├── tuya_app_angle_calc.c             /* Attitude calculation application routine */
      ├── tuya_ble_sdk_demo.c               /* Entry to the main application. SDK initialization. */
-     └── tuya_svc_angle_calc.c             /* Attitude calculation component */
+     └── tuya_svc_angle_calc.c             /* Attitude calculation component  */
 ```
 
 <br>
@@ -96,7 +96,7 @@ Entry file: `tuya_ble_sdk_demo.c`
 
 + `tuya_ble_sdk_demo_init()` is run to initialize the SDK. This function is run only once.
 + `tuya_app_angle_calc_init()` is run to initialize the attitude calculation program.
-+ `tuya_app_angle_calc_loop()` is used to loop the application code of the attitude calculation. Call this loop function in `main()` in the `main.c` file and place it in the `for(;;)`.
++ `tuya_app_angle_calc_loop()` is used to loop the application code of the attitude calculation. Call this loop function in `main()` and place it in the `for(;;)`.
 
 <br>
 
@@ -106,13 +106,13 @@ Entry file: `tuya_ble_sdk_demo.c`
 | :---: | :--- |
 | Function prototype | tuya_ble_status_t tuya_ble_dp_data_send(<br/>uint32_t sn,<br/>tuya_ble_dp_data_send_type_t type,<br/>tuya_ble_dp_data_send_mode_t mode,<br/>tuya_ble_dp_data_send_ack_t ack,<br/>uint8_t *p_dp_data,<br/>uint32_t dp_data_len<br/>) ; |
 | Feature overview | Send data point (DP) data to the cloud. |
-| Parameters | `sn[in]`: the sequence number. <br/>`type[in]`: the type of data sending, which can be a proactive notification or a follow-up response. <br/>`mode[in]`: the delivery mode. <br/>`ack[in]`: whether an ACK message is required. <br/>`p_dp_data[in]`: the DP data. <br/>`dp_data_len[in]`: the length of data, no more than `TUYA_BLE_SEND_MAX_DATA_LEN-7`. `TUYA_BLE_SEND_MAX_DATA_LEN` is configurable. |
-| Return value | `TUYA_BLE_SUCCESS`: sent successfully. <br/>`TUYA_BLE_ERR_INVALID_PARAM`: invalid parameter. <br/>`TUYA_BLE_ERR_INVALID_STATE`failed to send data due to the current Bluetooth connection, such as Bluetooth disconnected. <br/>`TUYA_BLE_ERR_NO_MEM`: failed to request memory allocation. <br/>`TUYA_BLE_ERR_INVALID_LENGTH`: data length error.<br/>`TUYA_BLE_ERR_NO_EVENT`: other errors. |
+| Parameters | `sn[in]`: the serial number. <br/>`type[in]`: the type of data sending, which can be a proactive notification or a follow-up response. <br/>`mode[in]`: the delivery mode. <br/>`ack[in]`: whether an ACK message is required. <br/>`p_dp_data [in]`: the DP data. <br/>`dp_data_len[in]`: the length of data, no more than `TUYA_BLE_SEND_MAX_DATA_LEN-7`. `TUYA_BLE_SEND_MAX_DATA_LEN` is configurable. |
+| Return value | `TUYA_BLE_SUCCESS`: sent successfully. <br/>`TUYA_BLE_ERR_INVALID_PARAM`: invalid parameter. <br/>`TUYA_BLE_ERR_INVALID_STATE`: failed to send data due to the current Bluetooth connection, such as Bluetooth disconnected. <br/>`TUYA_BLE_ERR_NO_MEM`: failed to request memory allocation. <br/>`TUYA_BLE_ERR_INVALID_LENGTH`: data length error. <br/>`TUYA_BLE_ERR_NO_EVENT`: other errors. |
 | Notes | The application calls this function to send DP data to the mobile app. |
 
-**`p_dp_data`** parameter description:
+`p_dp_data` parameter description:
 
-The [Tuya IoT Platform](https://iot.tuya.com/) manages data through DPs. Each product feature defined on the platform is described as a DP. The DP data consists of four parts. For more information, see [Custom Functions](https://developer.tuya.com/en/docs/iot/custom-functions?id=K937y38137c64).
+The [Tuya IoT Development Platform](https://iot.tuya.com/) manages data through DPs. Each product feature defined on the platform is described as a DP. The DP data consists of four parts. For more information, see [Custom Functions](https://developer.tuya.com/en/docs/iot/custom-functions?id=K937y38137c64).
 
 - `Dp_id`: The 1-byte parameter indicates the ID of a DP defined on the Tuya IoT Development Platform.
 
@@ -133,9 +133,9 @@ The [Tuya IoT Platform](https://iot.tuya.com/) manages data through DPs. Each pr
    - If `Dp_type` is 5, `Dp_len` can be 1, 2, and 4.
    - If `Dp_type` is 0 or 3, `Dp_len` can be customized but must not exceed the maximum length defined on the Tuya IoT Development Platform.
 
-- `Dp_data`: the DP data with the length of `dp_len`.
+- `Dp_data`: the DP data with the length of dp_len.
 
-The data that the parameter `Dp_data` points to must be packaged in the following format for reporting.
+The data that the parameter Dp_data points to must be packaged in the following format for reporting.
 
 | DP 1 data |  |  |  | — | DP n data |  |  |  |
 | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :---: | :---: |
@@ -153,14 +153,15 @@ You can send the data of multiple DPs at a time. Make sure the total length does
 | Digital I/O power supply of MPU6050 (VLOGIC) | IO16_D |
 | Interrupt output of MPU6050 (INT) | IO2_A |
 | SCL of the MPU6050's I2C | IO14_D |
-| SDA of the MPU6050's I2C | IO11 |
+| SDA of the MPU6050's I2C | I/O11 |
 | TXD/RXD for UART communication | IO18_D/IO20_D |
+
 
 <br>
 
 ## Reference
 
-- [Bluetooth SDK Development](https://developer.tuya.com/en/docs/iot-device-dev/BLE-SDK?id=Kalgco5r2mr0h)
+- [Bluetooth Low Energy SDK Guide](https://developer.tuya.com/en/docs/iot-device-dev/BLE-SDK?id=Kalgco5r2mr0h)
 - [Tuya Project Hub](https://developer.tuya.com/demo)
 
 <br>
@@ -172,5 +173,3 @@ You can get support from Tuya with the following methods:
 + [Tuya Developer Platform](https://developer.tuya.com/en/)
 + [Help Center](https://support.tuya.com/en/help)
 + [Service & Support](https://service.console.tuya.com)
-
-<br>
