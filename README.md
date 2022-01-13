@@ -6,7 +6,7 @@
 
 ## Overview
 
-This demo shows you how to use the attitude calculation component and view the result via a serial communication tool. This demo application is developed based on Tuya's low power Bluetooth module and the Bluetooth Low Energy SDK. You can create a prototype of a smart product on the [Tuya IoT Development Platform](https://iot.tuya.com/) and control it by using the Smart Life app. This demo uses the interface provided by the MPU6050 driver component to drive the MPU6050 to acquire the acceleration and angular velocity. You and find it from [tuya-iotos-embedded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050).
+This demo shows you how to use the attitude calculation component and view the result via a serial communication tool. This demo application is developed based on Tuya's low power Bluetooth module and the Bluetooth Low Energy SDK. You can create a prototype of a smart product on the [Tuya IoT Development Platform](https://iot.tuya.com/) and control it by using the Smart Life app. This demo uses the interface provided by the MPU6050 driver component to drive the MPU6050 to acquire the acceleration and angular velocity. You can find it from [tuya-iotos-embedded-demo-ble-mpu6050](https://github.com/Tuya-Community/tuya-iotos-embeded-demo-ble-mpu6050).
 
 <br>
 
@@ -57,7 +57,7 @@ This demo shows you how to use the attitude calculation component and view the r
 
 ### File introduction
 
-Copy the MPU6050 driver component to the driver folder.
+Copy the MPU6050 driver component to the `driver` folder.
 
 ```
 ├── include
@@ -85,18 +85,34 @@ Copy the MPU6050 driver component to the driver folder.
      |    └── tuya_ble_sdk_test.c          /* Program for testing SDK */
      ├── tuya_app_angle_calc.c             /* Attitude calculation application routine */
      ├── tuya_ble_sdk_demo.c               /* Entry to the main application. SDK initialization. */
-     └── tuya_svc_angle_calc.c             /* Attitude calculation component  */
+     └── tuya_svc_angle_calc.c             /* Attitude calculation component */
 ```
 
 <br>
 
 ### Entry to application
 
-Entry file: `tuya_ble_sdk_demo.c`
+Entry file: `tuya_ble_sdk_demo.c` and `tuya_ble_main.c`
 
-+ `tuya_ble_sdk_demo_init()` is run to initialize the SDK. This function is run only once.
-+ `tuya_app_angle_calc_init()` is run to initialize the attitude calculation program.
-+ `tuya_app_angle_calc_loop()` is used to loop the application code of the attitude calculation. Call this loop function in `main()` and place it in the `for(;;)`.
++ `tuya_ble_sdk_demo_init()` is run to initialize the SDK. This function is run only once. `tuya_app_angle_calc_init()` is run to initialize the attitude calculation program.
+
+     ```c
+     void tuya_ble_sdk_demo_init(void)
+     {
+         ...
+         tuya_app_angle_calc_init();
+     }
+     ```
+
++ `tuya_app_angle_calc_loop()` is used to loop the application code of the attitude calculation. Call this loop function in `tuya_ble_main_tasks_exec()`.
+
+     ```c
+     void tuya_ble_main_tasks_exec(void)
+     {
+         tuya_app_angle_calc_loop();
+         tuya_sched_execute();
+     }
+     ```
 
 <br>
 
@@ -127,7 +143,7 @@ The [Tuya IoT Development Platform](https://iot.tuya.com/) manages data through 
 
 - `Dp_len`: The 2-byte parameter indicates the length of a DP. The maximum length of a DP is specified when you define a DP on the Tuya IoT Development Platform.
 
-   - If `Dp_typ`e is 1, `Dp_len` must be 1.
+   - If `Dp_type` is 1, `Dp_len` must be 1.
    - If `Dp_type` is 2, `Dp_len` can be 1, 2, or 4.
    - If `Dp_type` is 4, `Dp_len` must be 1.
    - If `Dp_type` is 5, `Dp_len` can be 1, 2, and 4.
@@ -153,9 +169,8 @@ You can send the data of multiple DPs at a time. Make sure the total length does
 | Digital I/O power supply of MPU6050 (VLOGIC) | IO16_D |
 | Interrupt output of MPU6050 (INT) | IO2_A |
 | SCL of the MPU6050's I2C | IO14_D |
-| SDA of the MPU6050's I2C | I/O11 |
+| SDA of the MPU6050's I2C | IO11 |
 | TXD/RXD for UART communication | IO18_D/IO20_D |
-
 
 <br>
 
@@ -173,3 +188,5 @@ You can get support from Tuya with the following methods:
 + [Tuya Developer Platform](https://developer.tuya.com/en/)
 + [Help Center](https://support.tuya.com/en/help)
 + [Service & Support](https://service.console.tuya.com)
+
+<br>
